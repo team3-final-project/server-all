@@ -14,9 +14,9 @@ app.use(errorHandler);
 
 // Ganti username sama password di config DB aja, sisany biarin samaan
 // Kalau mau sambil coba run di postman, run server pake "npm run dev" aja
-// Buat test run "npm run test <nama file test>" aja biar ga ke run smua
+// Buat test run "npm run test <nama file test>" aja biar ga ke run semua
 
-// Selama Testing ini Jangan di Uncomment ya Gaes!
+// Selama Testing & Develop ini Jangan di Uncomment ya Gaes!
 // // Gunakan Saat Production Saja!
 // app.listen(port, () => {
 //   console.log(`app listen on port ${port}`);
