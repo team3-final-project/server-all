@@ -1,5 +1,6 @@
-class DoctorController {
+const { Doctor } = require("../models/index");
 
+class DoctorController {
   static async loginDoctor(req, res, next) {
     try {
       //  ...
@@ -7,7 +8,6 @@ class DoctorController {
       next(err);
     }
   }
-
 }
 
 module.exports = DoctorController;

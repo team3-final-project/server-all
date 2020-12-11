@@ -1,3 +1,5 @@
+const { HospitalRecord } = require("../models/index");
+
 class HospitalRecordController {
 
   static async addHospitalRecord(req, res, next) {

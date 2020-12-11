@@ -1,3 +1,5 @@
+const { Hospital } = require("../models/index");
+
 class HospitalController {
   
   static async loginHospital(req, res, next) {
