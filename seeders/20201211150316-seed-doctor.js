@@ -9,6 +9,13 @@ const doctorData = [
     createdAt: new Date(),
     updatedAt: new Date(),
   },
+  {
+    name: "Doctor 2",
+    password: hashPassword(`1234`),
+    specialist: "Dokter Jantung",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
 ];
 
 module.exports = {

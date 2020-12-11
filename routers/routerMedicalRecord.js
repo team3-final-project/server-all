@@ -4,6 +4,7 @@ const authenticationDoctor = require("../middlewares/authentication");
 
 router.use(authenticationDoctor);
 router.post("/", MedicalRecordController.addMedicalRecord);
+router.get("/", MedicalRecordController.getMedicalRecord);
 // dst
 
 module.exports = router;
