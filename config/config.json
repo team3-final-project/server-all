@@ -1,0 +1,19 @@
+{
+  "development": {
+    "username": "bobbyseptianto",
+    "password": "postgres",
+    "database": "med-tracker-db-dev",
+    "host": "localhost",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "bobbyseptianto",
+    "password": "postgres",
+    "database": "med-tracker-db-test",
+    "host": "localhost",
+    "dialect": "postgres"
+  },
+  "production": {
+    "use_env_variable": "DATABASE_URL"
+  }
+}
