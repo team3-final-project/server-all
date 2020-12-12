@@ -1,5 +1,5 @@
 const { verifyToken } = require("../helpers/jwt");
-const { Doctor } = require("../models/index");
+const { Doctor, Patient } = require("../models/index");
 
 async function authenticationDoctor(req, res, next) {
   try {
@@ -22,4 +22,28 @@ async function authenticationDoctor(req, res, next) {
   }
 }
 
-module.exports = authenticationDoctor;
+async function authenticationPatient(req, res, next) {
+  try {
+    const { access_token } = req.headers;
+    if (!access_token) {
+      throw { msg: `Authentication failed!`, status: 401 };
+    } else {
+      const decoded = verifyToken(access_token);
+      const { nik, name } = decoded;
+      const patient = await Patient.findOne({ where: { nik: nik, name: name } });
+      console.log(patient)
+      if (!patient) {
+        console.log('bukan')
+        throw { msg: `Authentication failed!`, status: 401 };
+      } else {
+        console.log('4')
+        req["patientLoggedIn"] = decoded;
+        next();
+      }
+    }
+  } catch (err) {
+    next(err);
+  }
+}
+
+module.exports = { authenticationDoctor, authenticationPatient };

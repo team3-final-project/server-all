@@ -15,8 +15,34 @@ module.exports = (sequelize, DataTypes) => {
   }
   Patient.init(
     {
-      nik: DataTypes.STRING,
-      name: DataTypes.STRING,
+      nik: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: {
+            args: true,
+            msg: 'nik should not be empty'
+          },
+          notNull: {
+            args: true,
+            msg: 'nik should not be empty'
+          }
+        }
+      },
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: {
+            args: true,
+            msg: 'name should not be empty'
+          },
+          notNull: {
+            args: true,
+            msg: 'name should not be empty'
+          }
+        }
+      },
       email: DataTypes.STRING,
       birth_date: DataTypes.STRING,
       address: DataTypes.STRING,
