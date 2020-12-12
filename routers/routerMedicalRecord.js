@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const MedicalRecordController = require("../controllers/MedicalRecordController");
-const authenticationDoctor = require("../middlewares/authentication");
+const { authenticationDoctor } = require("../middlewares/authentication");
 const authorizationMedicalRecord = require("../middlewares/authorization");
 
 router.use(authenticationDoctor);
