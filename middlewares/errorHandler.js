@@ -17,7 +17,7 @@ function errorHandler (err, req, res, next) {
     msg = err.msg || `Internal server error!`;
   }
 
-  res.status(status).json({ msg });
+  res.status(status).json(msg);
 }
 
 module.exports = errorHandler;
