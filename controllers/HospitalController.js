@@ -1,4 +1,4 @@
-const { Hospital, HospitalRecord, sequelize  } = require("../models/index");
+const { Hospital, HospitalRecord, Patient, sequelize  } = require("../models/index");
 const { comparePassword } = require('../helpers/bcrypt');
 const { signToken } = require('../helpers/jwt');
 
@@ -45,6 +45,33 @@ class HospitalController {
       res.status(200).json(data);
     } catch (err) {
       next(err);
+    }
+  }
+  
+  static async getPatientsList (req, res, next) {
+    try {
+      const data = await HospitalRecord.findAll({
+        where: {
+          HospitalId : req.hospitalLoggedIn.id
+        },
+        include: [Patient]
+      })
+      const patients = []
+      data.forEach(el => {
+        let flag = false
+        for(let i = 0; i < patients.length - 1; i++){
+          if(el.id === patients[i].id){
+            flag = true
+          }
+        }
+        if(!flag) {
+          patients.push(el.Patient)
+        }
+      });
+
+      res.status(200).json(patients)
+    } catch (err) {
+      next(err)
     }
   }
 }

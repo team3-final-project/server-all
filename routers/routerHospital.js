@@ -4,6 +4,6 @@ const { authenticationHospital } = require("../middlewares/authentication");
 
 router.post("/login", HospitalController.loginHospital);
 router.get("/", authenticationHospital, HospitalController.getHospitalProfile);
-// dst
+router.get("/patients", authenticationHospital, HospitalController.getPatientsList)
 
 module.exports = router;
