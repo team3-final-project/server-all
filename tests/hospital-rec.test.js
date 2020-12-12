@@ -2,7 +2,6 @@ const request = require('supertest')
 const app = require('../app')
 const { sequelize } = require('../models');
 const { hashPassword } = require('../helpers/bcrypt');
-const { response } = require('express');
 const { queryInterface } = sequelize
 
 let access_token = ''
@@ -16,13 +15,13 @@ beforeAll((done) => {
         updatedAt: new Date(),
     }
 
-    queryInterface.bulkInsert('HospitalRecords', [data])
+    queryInterface.bulkInsert('Hospitals', [data])
         .then(result => {
             request(app)
-            .post('/hospital')
+            .post('/hospital/login')
             .send({
                 name: "Hospital 1",
-                password: password
+                password: '1234'
             })
         .then(res => {
             access_token = res.body.access_token
@@ -30,7 +29,7 @@ beforeAll((done) => {
         })
         .catch(err => {
             console.log(err)
-            done()
+            done(err)
         })
     })
 })
@@ -51,15 +50,20 @@ describe('Test endpoint add hospital record', () => {
         .set('access_token', access_token)
         .then(response => {
             const { body, status } = response
+            const attribute = body.result
 
             expect(status).toEqual(201)
+            expect(attribute).toHaveProperty("id", expect.any(Number))
+            expect(attribute).toHaveProperty("PatientId", expect.any(Number));
+            expect(attribute).toHaveProperty("HospitalId", expect.any(Number));
             done()
         })
         .catch(err => {
             console.log(err)
+            done(err)
         })
     })
-
+    
     it('Test add hospital record failed with no header', (done) => {
         request(app)
         .post('/hospital-record')
@@ -74,15 +78,20 @@ describe('Test endpoint add hospital record', () => {
             const { body, status } = response
 
             expect(status).toEqual(401)
-            expect(body.msg).toEqual('Authentication Failed')
+            expect(body.msg).toEqual('Authentication failed!')
             done()
         })
+        .catch(err => {
+            console.log(err)
+            done(err)
+        })
     })
-    it('Test attribute type_test null', (done) => {
+    
+    it('Test attribute type_test empty', (done) => {
         request(app)
         .post('/hospital-record')
         .send({
-            type_test: null,
+            type_test: '',
             file: 'acfasfad',
             date: new Date(),
             PatientId: 1,
@@ -91,19 +100,24 @@ describe('Test endpoint add hospital record', () => {
         .set('access_token', access_token)
         .then(response => {
             const { body, status } = response
+            console.log(body)
 
             expect(status).toEqual(400)
-            expect(body.msg).toEqual('type test should not be empty')
+            expect(body.msg).toEqual('Type test is required!')
             done()
         })
+        .catch(err => {
+            console.log(err)
+            done(err)
+        })
     })
-
-    it('Test attribute file null', (done) => {
+    
+    it('Test attribute file empty', (done) => {
         request(app)
         .post('/hospital-record')
         .send({
             type_test: 'dadaf',
-            file: null,
+            file: '',
             date: new Date(),
             PatientId: 1,
             HospitalId: 1
@@ -113,14 +127,15 @@ describe('Test endpoint add hospital record', () => {
             const { body, status } = response
 
             expect(status).toEqual(400)
-            expect(body.msg).toEqual('file should not be empty')
+            expect(body.msg).toEqual('File is required!')
             done()
         })
     })
+    
 })
 
 describe('Test endpoint delete hospital record', () => {
-    it('Test delete successfully', () => {
+    it('Test delete successfully', (done) => {
         request(app)
         .delete('/hospital-record/1')
         .set('access_token', access_token)
@@ -128,16 +143,29 @@ describe('Test endpoint delete hospital record', () => {
             const { body, status } = response
 
             expect(status).toEqual(200)
+            expect(body).toHaveProperty('msg', 'successfully deleted')
+
+            done()
+        })
+        .catch(err => {
+            console.log(err)
+            done(err)
         })
     })
 
-    it('Test delete failed with no headers', () => {
+    it('Test delete failed with no headers', (done) => {
         request(app)
         .delete('/hospital-record/1')
         .then(response => {
             const { body, status } = response
 
-            expect(status).toEqual(400)
+            expect(status).toEqual(401)
+            expect(body).toHaveProperty("msg", expect.any(String));
+            done()
+        })
+        .catch(err => {
+            console.log(err)
+            done(err)
         })
     })
 })

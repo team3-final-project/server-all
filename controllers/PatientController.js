@@ -1,4 +1,4 @@
-const { Patient } = require("../models/index");
+const { Patient, HospitalRecord, MedicalRecord } = require("../models/index");
 const { signToken } = require("../helpers/jwt")
 
 class PatientController {
@@ -7,9 +7,9 @@ class PatientController {
     try {
       const data = req.body
       const result = await Patient.findOne({ where: {
-        nik: data.nik,
-        name: data.name
-      }
+          nik: data.nik,
+          name: data.name
+        }
       })
 
       if(!result) {
@@ -31,9 +31,10 @@ class PatientController {
     try {
       const patient = req.patientLoggedIn
       const patientData = await Patient.findOne({
-        where: {nik: patient.nik}
+        where: {nik: patient.nik},
+        include: [HospitalRecord, MedicalRecord]
       })
-      res.status(200).json({patientData})
+        res.status(200).json({patientData})
     } catch (err) {
       next(err)
     }
