@@ -9,6 +9,13 @@ const hospitalData = [
     createdAt: new Date(),
     updatedAt: new Date(),
   },
+  {
+    name: "Hospital 2",
+    password: hashPassword(`1234`),
+    address: "Jl. Makaliwe, Jakarta Barat",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
 ];
 
 module.exports = {

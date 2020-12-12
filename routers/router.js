@@ -20,4 +20,5 @@ router.use("/medical-record", routerMedicalRecord);
 // HospitalRecord
 router.use("/hospital-record", routerHospitalRecord);
 
+
 module.exports = router;

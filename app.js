@@ -13,7 +13,7 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.use(router);
+app.use("/", router);
 app.use(errorHandler);
 
 // Ganti username sama password di config DB aja, sisany biarin samaan

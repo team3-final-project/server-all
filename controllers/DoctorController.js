@@ -9,7 +9,7 @@ class DoctorController {
       const payload = {
         name,
         password,
-      }
+      };
       const doctor = await Doctor.findOne({ where: { name: payload.name } });
       if (!doctor) {
         throw { msg: `Invalid name or password!`, status: 401 };
@@ -24,6 +24,15 @@ class DoctorController {
           .status(200)
           .json({ id: doctor.id, name: doctor.name, access_token });
       }
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  static async detailDoctor(req, res, next) {
+    try {
+      const doctor = await Doctor.findAll({ order: [['createdAt', 'ASC']] })
+      res.status(200).json(doctor)
     } catch (err) {
       next(err);
     }
