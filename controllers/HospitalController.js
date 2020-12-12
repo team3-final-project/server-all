@@ -38,19 +38,15 @@ class HospitalController {
   static async getHospitalProfile (req, res, next) {
     try {
       const data = await HospitalRecord.findAll({
-        // attributes: ['id', 'date']
         where: { HospitalId : req.hospitalLoggedIn.id },
         attributes: ['HospitalId',[sequelize.fn('COUNT', sequelize.col('HospitalId')), 'Jumlah Patient']],
         group: ['HospitalId']
       })
-      console.log(data, '<<<< cek isi get Hospital Profile');
       res.status(200).json(data);
     } catch (err) {
-      // next(err);
-      console.log(err, '<<< eror di get hospital profile')
+      next(err);
     }
   }
-
 }
 
 module.exports = HospitalController;
