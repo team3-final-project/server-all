@@ -36,7 +36,11 @@ class MedicalRecordController {
         where: { PatientId, DoctorId },
         order: [["updatedAt", "DESC"]],
       });
-      res.status(200).json(medicalRecords);
+      if (!medicalRecords.length) {
+        throw { msg: `Error not found!`, status: 404 };
+      } else {
+        res.status(200).json(medicalRecords);
+      }
     } catch (err) {
       next(err);
     }
