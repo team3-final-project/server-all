@@ -69,7 +69,7 @@ describe('Test endpoint POST login', () => {
             const { body, status } = response
 
             expect(status).toEqual(401)
-            expect(body).toEqual('Check again your identification data')
+            expect(body.msg).toEqual('Check again your identification data')
             done()
         })
         .catch(err => {
@@ -89,7 +89,7 @@ describe('Test endpoint POST login', () => {
             const { body, status } = response
 
             expect(status).toEqual(401)
-            expect(body).toEqual('Check again your identification data')
+            expect(body.msg).toEqual('Check again your identification data')
             done()
         })
         .catch(err => {
@@ -109,7 +109,7 @@ describe('Test endpoint POST login', () => {
             const { body, status } = response
 
             expect(status).toBe(401);
-            expect(body).toEqual('Check again your identification data')
+            expect(body.msg).toEqual('Check again your identification data')
             done()
         })
         .catch(err => {
@@ -137,6 +137,39 @@ describe('Test endpoint GET patient data', () => {
             done(err)
         })
     });
+
+    it('Test Get Data failed, wrong router', (done) => {
+        request(app)
+        .get('/patient/1')
+        .set('access_token', access_token)
+        .then(response => {
+            const { body, status } = response
+
+            expect(status).toEqual(404);
+            done()
+        })
+        .catch(err => {
+            console.log(err)
+            done(err)
+        })
+    });
+
+    it('Test Get Data not found', (done) => {
+        request(app)
+        .get('/patient')
+        .set('access_token', 'asnjanjdnasknmdkaskaskcmkadmckamdkcmka')
+        .then(response => {
+            const { body, status } = response
+
+            expect(status).toEqual(500);
+            expect(body).toHaveProperty("msg", 'Internal server error!');
+            done()
+        })
+        .catch(err => {
+            console.log(err)
+            done(err)
+        })
+    });
     
     it('Test Get Data failed with no headers', (done) => {
         request(app)
@@ -145,7 +178,7 @@ describe('Test endpoint GET patient data', () => {
             const { body, status } = response
 
             expect(status).toEqual(401)
-            expect(body).toEqual('Authentication failed!')
+            expect(body.msg).toEqual('Authentication failed!')
             done()
         })
         .catch(err => {

@@ -27,7 +27,7 @@ class HospitalRecordController {
       },
         returning: true
       })
-      res.status(200).json({ msg: 'successfully deleted' })
+      res.status(200).json({ result, msg: 'successfully deleted' })
     }
     catch(err) {
       next(err)

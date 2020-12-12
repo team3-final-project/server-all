@@ -34,7 +34,7 @@ class PatientController {
         where: {nik: patient.nik},
         include: [HospitalRecord, MedicalRecord]
       })
-      res.status(200).json({patientData})
+        res.status(200).json({patientData})
     } catch (err) {
       next(err)
     }

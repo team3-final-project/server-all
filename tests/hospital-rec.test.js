@@ -78,7 +78,7 @@ describe('Test endpoint add hospital record', () => {
             const { body, status } = response
 
             expect(status).toEqual(401)
-            expect(body).toEqual('Authentication failed!')
+            expect(body.msg).toEqual('Authentication failed!')
             done()
         })
         .catch(err => {
@@ -103,7 +103,7 @@ describe('Test endpoint add hospital record', () => {
             console.log(body)
 
             expect(status).toEqual(400)
-            expect(body).toEqual('Type test is required!')
+            expect(body.msg).toEqual('Type test is required!')
             done()
         })
         .catch(err => {
@@ -127,7 +127,7 @@ describe('Test endpoint add hospital record', () => {
             const { body, status } = response
 
             expect(status).toEqual(400)
-            expect(body).toEqual('File is required!')
+            expect(body.msg).toEqual('File is required!')
             done()
         })
     })
@@ -143,6 +143,8 @@ describe('Test endpoint delete hospital record', () => {
             const { body, status } = response
 
             expect(status).toEqual(200)
+            expect(body).toHaveProperty('msg', 'successfully deleted')
+
             done()
         })
         .catch(err => {
