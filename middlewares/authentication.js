@@ -25,6 +25,7 @@ async function authenticationDoctor(req, res, next) {
 async function authenticationHospital(req, res, next) {
   try {
     const { access_token } = req.headers;
+    console.log(access_token, '<<<< access_token di authen');
     if (!access_token) {
       throw { msg: `Authentication failed!`, status: 401 };
     } else {
