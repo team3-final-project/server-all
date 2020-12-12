@@ -1,4 +1,4 @@
-const { MedicalRecord } = require("../models/index");
+const { MedicalRecord, Patient } = require("../models/index");
 
 class MedicalRecordController {
   static async addMedicalRecord(req, res, next) {
@@ -33,14 +33,11 @@ class MedicalRecordController {
       const { PatientId } = req.body;
       const DoctorId = req.doctorLoggedIn.id;
       const medicalRecords = await MedicalRecord.findAll({
-        where: { PatientId, DoctorId },
+        where: { DoctorId },
         order: [["updatedAt", "DESC"]],
+        include: [Patient],
       });
-      if (!medicalRecords.length) {
-        throw { msg: `Error not found!`, status: 404 };
-      } else {
-        res.status(200).json(medicalRecords);
-      }
+      res.status(200).json(medicalRecords);
     } catch (err) {
       next(err);
     }
