@@ -1,7 +1,7 @@
 'use strict';
 
 const data = [{
-  date: '12/12/2020',
+  date: '2020-12-12',
   type_test: 'test 1',
   file: 'file',
   PatientId: 1,

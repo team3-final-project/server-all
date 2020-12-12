@@ -223,6 +223,44 @@ describe("Test Endpoint GET /medical-record", () => {
         done(err);
       });
   });
+
+  // FAILED
+  it("Test Get Medical Record - Not SEND Acces Token", (done) => {
+    request(app)
+      .get("/medical-record")
+      .send({
+        PatientId: 1,
+      })
+      .then((res) => {
+        const { body, status } = res;
+        expect(status).toBe(401);
+        expect(body).toHaveProperty("msg", "Authentication failed!");
+        done();
+      })
+      .catch((err) => {
+        console.log(err);
+        done(err);
+      });
+  });
+
+  it("Test Get Medical Record - ID Not Found", (done) => {
+    request(app)
+      .get("/medical-record")
+      .set("access_token", access_token)
+      .send({
+        PatientId: 99999,
+      })
+      .then((res) => {
+        const { body, status } = res;
+        expect(status).toBe(404);
+        expect(body).toHaveProperty("msg", "Error not found!");
+        done();
+      })
+      .catch((err) => {
+        console.log(err);
+        done(err);
+      });
+  });
 });
 
 // UPDATE
@@ -248,6 +286,7 @@ describe("Test Endpoint PUT /medical-record/:id", () => {
         expect(body).toHaveProperty("dosis", expect.any(Number));
         expect(body).toHaveProperty("jumlah_obat", expect.any(Number));
         expect(body).toHaveProperty("PatientId", expect.any(Number));
+        done();
       })
       .catch((err) => {
         console.log(err);
@@ -278,92 +317,106 @@ describe("Test Endpoint PUT /medical-record/:id", () => {
       });
   });
 
-  // it("Test Update Product - Price Negative (Price < 0)", (done) => {
-  //   request(app)
-  //     .put(`/products/${id}`)
-  //     .set("access_token", access_token)
-  //     .send({
-  //       name: "Meja TV HEMNES",
-  //       image_url:
-  //         "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/247/0824740_PE776188_S4.jpg",
-  //       description:
-  //         "Kombinasi penyimpanan TV, hitam-cokelat/cokelat muda kaca bening",
-  //       price: -12497000,
-  //       stock: 5,
-  //       CategoryId: id_category,
-  //     })
-  //     .then((res) => {
-  //       const { body, status } = res;
-  //       expect(status).toBe(400);
-  //       expect(body).toHaveProperty(
-  //         "msg",
-  //         "Price must be greater than or equal 0!"
-  //       );
-  //       done();
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //       done(err);
-  //     });
-  // });
+  it("Test Update Medical Record - Empty Required Fields", (done) => {
+    request(app)
+      .put(`/medical-record/${id}`)
+      .set("access_token", access_token)
+      .send({
+        date: "",
+        diagnose: "",
+        medicine_name: "",
+        dosis: "",
+        jumlah_obat: "",
+      })
+      .then((res) => {
+        const { body, status } = res;
+        expect(status).toBe(400);
+        expect(body).toHaveProperty(
+          "msg",
+          "Date is required!, Wrong date format YYYY-MM-DD!, Date cannot be before today's date!, Diagnose is required!, Medicine name is required!, Dosis is required and must be an integer!, Amount of meds is required and must be an integer!"
+        );
+        done();
+      })
+      .catch((err) => {
+        console.log(err);
+        done(err);
+      });
+  });
 
-  // it("Test Update Product - Stock Negative (Stock < 0)", (done) => {
-  //   request(app)
-  //     .put(`/products/${id}`)
-  //     .set("access_token", access_token)
-  //     .send({
-  //       name: "Meja TV HEMNES",
-  //       image_url:
-  //         "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/247/0824740_PE776188_S4.jpg",
-  //       description:
-  //         "Kombinasi penyimpanan TV, hitam-cokelat/cokelat muda kaca bening",
-  //       price: 12497000,
-  //       stock: -5,
-  //       CategoryId: id_category,
-  //     })
-  //     .then((res) => {
-  //       const { body, status } = res;
-  //       expect(status).toBe(400);
-  //       expect(body).toHaveProperty(
-  //         "msg",
-  //         "Stock must be greater than or equal 0!"
-  //       );
-  //       done();
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //       done(err);
-  //     });
-  // });
+  it("Test Update Medical Record - Wrong Data Type", (done) => {
+    request(app)
+      .put(`/medical-record/${id}`)
+      .set("access_token", access_token)
+      .send({
+        date: "2020-12-25",
+        diagnose: "Demam Berdarah",
+        medicine_name: "Paracetamol",
+        dosis: "tiga",
+        jumlah_obat: "sepuluh",
+      })
+      .then((res) => {
+        const { body, status } = res;
+        expect(status).toBe(400);
+        expect(body).toHaveProperty(
+          "msg",
+          "Dosis is required and must be an integer!, Amount of meds is required and must be an integer!"
+        );
+        done();
+      })
+      .catch((err) => {
+        console.log(err);
+        done(err);
+      });
+  });
 
-  // it("Test Update Product - Wrong Data Type", (done) => {
-  //   request(app)
-  //     .put(`/products/${id}`)
-  //     .set("access_token", access_token)
-  //     .send({
-  //       name: "Meja TV HEMNES",
-  //       image_url:
-  //         "https://d2xjmi1k71iy2m.cloudfront.net/dairyfarm/id/images/247/0824740_PE776188_S4.jpg",
-  //       description:
-  //         "Kombinasi penyimpanan TV, hitam-cokelat/cokelat muda kaca bening",
-  //       price: 12497000,
-  //       stock: "lima",
-  //       CategoryId: id_category,
-  //     })
-  //     .then((res) => {
-  //       const { body, status } = res;
-  //       expect(status).toBe(400);
-  //       expect(body).toHaveProperty(
-  //         "msg",
-  //         "Stock is required and must be an Integer!"
-  //       );
-  //       done();
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //       done(err);
-  //     });
-  // });
+  it("Test Update Medical Record - Negative Dosis and Jumlah Obat", (done) => {
+    request(app)
+      .put(`/medical-record/${id}`)
+      .set("access_token", access_token)
+      .send({
+        date: "2020-12-25",
+        diagnose: "Demam Berdarah",
+        medicine_name: "Paracetamol",
+        dosis: -3,
+        jumlah_obat: -10,
+      })
+      .then((res) => {
+        const { body, status } = res;
+        expect(status).toBe(400);
+        expect(body).toHaveProperty(
+          "msg",
+          "Dosis must be greater than or equal 0!, Amount of meds must be greater than or equal 0!"
+        );
+        done();
+      })
+      .catch((err) => {
+        console.log(err);
+        done(err);
+      });
+  });
+
+  it("Test Update Medical Record - ID Not Found", (done) => {
+    request(app)
+      .put(`/medical-record/1000`)
+      .set("access_token", access_token)
+      .send({
+        date: "2020-12-25",
+        diagnose: "Demam Tinggi",
+        medicine_name: "Paracetamol",
+        dosis: 3,
+        jumlah_obat: 10,
+      })
+      .then((res) => {
+        const { body, status } = res;
+        expect(status).toBe(404);
+        expect(body).toHaveProperty("msg", "Error not found!");
+        done();
+      })
+      .catch((err) => {
+        console.log(err);
+        done(err);
+      });
+  });
 });
 
 // DELETE
@@ -396,6 +449,22 @@ describe("Test Endpoint DELETE /medical-record/:id", () => {
         const { body, status } = res;
         expect(status).toBe(401);
         expect(body).toHaveProperty("msg", "Authentication failed!");
+        done();
+      })
+      .catch((err) => {
+        console.log(err);
+        done(err);
+      });
+  });
+
+  it("Test Delete Medical Record - Not Found", (done) => {
+    request(app)
+      .delete(`/medical-record/1000`)
+      .set("access_token", access_token)
+      .then((res) => {
+        const { body, status } = res;
+        expect(status).toBe(404);
+        expect(body).toHaveProperty("msg", "Error not found!");
         done();
       })
       .catch((err) => {
