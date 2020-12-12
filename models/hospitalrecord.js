@@ -15,9 +15,44 @@ module.exports = (sequelize, DataTypes) => {
   }
   HospitalRecord.init(
     {
-      date: DataTypes.STRING,
-      type_test: DataTypes.STRING,
-      file: DataTypes.STRING,
+      date: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: {
+            args: true,
+            msg: `Date is required!`
+          },
+          isDate: {
+            args: true,
+            msg: `Wrong date format YYYY-MM-DD!`
+          },
+          isAfter: {
+            args: `${new Date()}`,
+            msg: `Date cannot be before today's date!`
+          }
+        }
+      },
+      type_test: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: {
+            args: true,
+            msg: `Type test is required!`
+          }
+        }
+      },
+      file: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: {
+            args: true,
+            msg: `File is required!`
+          }
+        }
+      },
       PatientId: DataTypes.INTEGER,
       HospitalId: DataTypes.INTEGER,
     },

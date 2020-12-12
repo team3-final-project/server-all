@@ -28,6 +28,15 @@ class DoctorController {
       next(err);
     }
   }
+
+  static async detailDoctor(req, res, next) {
+    try {
+      const doctor = await Doctor.findAll({ order: [['createdAt', 'ASC']] })
+      res.status(200).json(doctor)
+    } catch (err) {
+      next(err);
+    }
+  }
 }
 
 module.exports = DoctorController;
