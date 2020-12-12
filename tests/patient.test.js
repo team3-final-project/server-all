@@ -1,6 +1,6 @@
 const request = require('supertest')
 const app = require('../app')
-const { sequelize } = require('../models');
+const { sequelize } = require('../models/index');
 const { queryInterface } = sequelize
 
 let access_token = '';
@@ -31,7 +31,7 @@ beforeAll((done) => {
         })
         .catch(err => {
             console.log(err)
-            done()
+            done(err)
         })
     })
 })
@@ -54,6 +54,7 @@ describe('Test endpoint POST login', () => {
         })
         .catch(err => {
             console.log(err)
+            done(err)
         })
     });
     
@@ -68,11 +69,12 @@ describe('Test endpoint POST login', () => {
             const { body, status } = response
 
             expect(status).toEqual(401)
-            expect(body.msg).toEqual('Check again your identification data')
+            expect(body).toEqual('Check again your identification data')
             done()
         })
         .catch(err => {
-            console.log(err)
+            console.log(err);
+            done(err);
         })
     })
     
@@ -87,56 +89,39 @@ describe('Test endpoint POST login', () => {
             const { body, status } = response
 
             expect(status).toEqual(401)
-            expect(body.msg).toEqual('Check again your identification data')
+            expect(body).toEqual('Check again your identification data')
             done()
         })
         .catch(err => {
-            console.log(err)
+            console.log(err);
+            done(err);
         })
     })
     
-    it('No nik inserted', (done) => {
+    it('No nik and name inserted', (done) => {
         request(app)
         .post('/patient')
         .send({
-            nik: null,
-            name: 'Pat'
+            nik: '',
+            name: ''
         })
         .then(response => {
             const { body, status } = response
 
-            expect(status).toEqual(401)
-            expect(body.msg).toEqual('nik should not bet empty')
+            expect(status).toBe(401);
+            expect(body).toEqual('Check again your identification data')
             done()
         })
         .catch(err => {
-            console.log(err)
-        })
-    })
-    
-    it('no name inserted', (done) => {
-        request(app)
-        .post('/patient')
-        .send({
-            nik: '123456789',
-            name: null
-        })
-        .then(response => {
-            const { body, status } = response
-
-            expect(status).toEqual(401)
-            expect(body.msg).toEqual('name should not bet empty')
-            done()
-        })
-        .catch(err => {
-            console.log(err)
+            console.log(err);
+            done(err)
         })
     })
 })
 
 
 describe('Test endpoint GET patient data', () => {
-    it('Test Get Data success', () => {
+    it('Test Get Data success', (done) => {
         request(app)
         .get('/patient')
         .set('access_token', access_token)
@@ -149,21 +134,23 @@ describe('Test endpoint GET patient data', () => {
         })
         .catch(err => {
             console.log(err)
+            done(err)
         })
     });
     
     it('Test Get Data failed with no headers', (done) => {
         request(app)
         .get('/patient')
-        .set('access_token', access_token)
         .then(response => {
             const { body, status } = response
 
             expect(status).toEqual(401)
-            expect(body).toEqual('Authentication failed')
+            expect(body).toEqual('Authentication failed!')
+            done()
         })
         .catch(err => {
             console.log(err)
+            done(err)
         })
     })
 })

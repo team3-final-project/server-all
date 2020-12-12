@@ -3,10 +3,8 @@ const { HospitalRecord } = require("../models/index");
 class HospitalRecordController {
 
   static async addHospitalRecord(req, res, next) {
-    const HospitalId = req.hospitalLoggedIn.id
-    const PatientId = req.patientLoggedIn.id
 
-    const { type_test, file, date } = req.body
+    const { type_test, file, date, PatientId, HospitalId } = req.body
     try {
       const result = await HospitalRecord.create({
         type_test,
@@ -29,13 +27,12 @@ class HospitalRecordController {
       },
         returning: true
       })
-      res.status(200).json({result})
+      res.status(200).json({ msg: 'successfully deleted' })
     }
     catch(err) {
       next(err)
     }
   }
-
 }
 
 module.exports = HospitalRecordController;

@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">63.16% </span>
+                <span class="strong">21.05% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>12/19</span>
+                <span class='fraction'>4/19</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/4</span>
+                <span class='fraction'>0/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/2</span>
+                <span class='fraction'>0/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">63.16% </span>
+                <span class="strong">21.05% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>12/19</span>
+                <span class='fraction'>4/19</span>
             </div>
         
             
@@ -55,7 +55,7 @@
             Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
         </p>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -105,23 +105,23 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -146,24 +146,24 @@ const { comparePassword } = require("../helpers/bcrypt");
 const { signToken } = require("../helpers/jwt");
 &nbsp;
 class DoctorController {
-  static async loginDoctor(req, res, next) {
-    try {
-      const { name, password } = req.body;
-      const payload = {
+<span class="fstat-no" title="function not covered" >  st</span>atic async loginDoctor(req, res, next) {
+<span class="cstat-no" title="statement not covered" >    try {</span>
+      const { name, password } = <span class="cstat-no" title="statement not covered" >req.body;</span>
+      const payload = <span class="cstat-no" title="statement not covered" >{</span>
         name,
         password,
       };
-      const doctor = await Doctor.findOne({ where: { name: payload.name } });
-      <span class="missing-if-branch" title="if path not taken" >I</span>if (!doctor) {
+      const doctor = <span class="cstat-no" title="statement not covered" >await Doctor.findOne({ where: { name: payload.name } });</span>
+<span class="cstat-no" title="statement not covered" >      if (!doctor) {</span>
 <span class="cstat-no" title="statement not covered" >        throw { msg: `Invalid name or password!`, status: 401 };</span>
-      } else <span class="missing-if-branch" title="if path not taken" >I</span>if (!comparePassword(payload.password, doctor.password)) {
+      } else <span class="cstat-no" title="statement not covered" >if (!comparePassword(payload.password, doctor.password)) {</span>
 <span class="cstat-no" title="statement not covered" >        throw { msg: `Invalid name or password!`, status: 401 };</span>
       } else {
-        const access_token = signToken({
+        const access_token = <span class="cstat-no" title="statement not covered" >signToken({</span>
           id: doctor.id,
           name: doctor.name,
         });
-        res
+<span class="cstat-no" title="statement not covered" >        res</span>
           .status(200)
           .json({ id: doctor.id, name: doctor.name, access_token });
       }
@@ -190,7 +190,7 @@ module.exports = DoctorController;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Sat Dec 12 2020 11:43:34 GMT+0700 (Western Indonesia Time)
+                at Sat Dec 12 2020 13:05:42 GMT+0700 (Western Indonesia Time)
             </div>
         </div>
         <script src="../../prettify.js"></script>
