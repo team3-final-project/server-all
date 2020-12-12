@@ -1,8 +1,19 @@
 const request = require('supertest');
-const { response } = require('../app');
 const app = require('../app');
 
-describe("test Endpoint Hospital", () => {
+let access_token;
+
+beforeAll((done) => {
+  request(app)
+    .post("/hospital/login")
+    .send({ name: 'Hospital 1', password: '1234' })
+    .then(res => {
+      access_token = res.body.access_token;
+      done();
+    })
+})
+
+describe("test Endpoint Hospital Login", () => {
   it("test Login Success", (done) => {
     request(app)
       .post("/hospital/login")
@@ -15,7 +26,7 @@ describe("test Endpoint Hospital", () => {
         done();
       })
       .catch(err => {
-        console.log(err);
+        done(err);
       })
   })
 
@@ -27,24 +38,41 @@ describe("test Endpoint Hospital", () => {
         const { body, status } = response;
 
         expect(status).toEqual(401);
-        expect(body).toEqual('Invalid name or password!');
+        expect(body).toEqual(expect.any(Object));
         done();
       })
       .catch(err => {
-        console.log(err);
+        done(err);
       })
   })
+})
 
-  it.only("test endpoind get profile", (done) => {
+describe("test EndPoint Hospital Profile", () => {
+  it("test endpoint get profile", (done) => {
     request(app)
       .get('/hospital')
+      .set('access_token', access_token)
       .then(response => {
         const { body, status } = response;
 
         expect(status).toEqual(200);
-        // expect(body). 
+        expect(body).toEqual(expect.any(Object));
         done();
       })
-      .catch(err => console.log(err))
+      .catch(err => done(err))
+  })
+
+  it("test endpoint get profile failed (not authorized)", (done) => {
+    request(app)
+      .get('/hospital')
+      // .set('access_token', access_token)
+      .then(response => {
+        const { body, status } = response;
+
+        expect(status).toEqual(401);
+        expect(body).toEqual(expect.any(Object));
+        done();
+      })
+      .catch(err => done(err))
   })
 })
