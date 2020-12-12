@@ -39,9 +39,9 @@ class HospitalController {
     try {
       const data = await HospitalRecord.findAll({
         // attributes: ['id', 'date']
-        attributes: ['HospitalId',[sequelize.fn('COUNT', sequelize.col('PatientId')), 'Jumlah Patient']],
-        group: ['HospitalRecord.id', 'Hospital.id', 'HospitalId'],
-        include: ['Hospital']
+        where: { HospitalId : req.hospitalLoggedIn.id },
+        attributes: ['HospitalId',[sequelize.fn('COUNT', sequelize.col('HospitalId')), 'Jumlah Patient']],
+        group: ['HospitalId']
       })
       console.log(data, '<<<< cek isi get Hospital Profile');
       res.status(200).json(data);
