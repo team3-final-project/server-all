@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const DoctorController = require("../controllers/DoctorController");
-const authenticationDoctor = require("../middlewares/authentication");
+const { authenticationDoctor } = require("../middlewares/authentication");
 
 router.post("/", DoctorController.loginDoctor);
 
