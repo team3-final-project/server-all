@@ -1,4 +1,4 @@
-const { HospitalRecord } = require("../models/index");
+const { HospitalRecord, Patient } = require("../models/index");
 
 class HospitalRecordController {
 
@@ -14,6 +14,23 @@ class HospitalRecordController {
         HospitalId
       })
       res.status(201).json({result})
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  static async readHospitalRecordById(req, res, next) {
+    const id = +req.params.id
+    console.log(id)
+
+    try {
+      const data = await HospitalRecord.findAll({
+        where: {
+          PatientId: id
+        },
+        include: [Patient]
+      })
+      res.status(201).json(data)
     } catch (err) {
       next(err);
     }

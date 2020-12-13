@@ -3,6 +3,7 @@ const HospitalRecordController = require("../controllers/HospitalRecordControlle
 const { authenticationHospital } = require("../middlewares/authentication")
 
 router.post("/", authenticationHospital, HospitalRecordController.addHospitalRecord);
+router.get("/:id", authenticationHospital, HospitalRecordController.readHospitalRecordById)
 router.delete("/:id", authenticationHospital, HospitalRecordController.deleteHospitalRecord)
 
 module.exports = router;
