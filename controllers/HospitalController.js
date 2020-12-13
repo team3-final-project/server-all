@@ -61,9 +61,9 @@ class HospitalController {
   static async getPatientsList(req, res, next) {
     try {
       const data = await Patient.findAll({
-        where: {
-          HospitalId: req.hospitalLoggedIn.id,
-        },
+        // where: {
+        //   HospitalId: req.hospitalLoggedIn.id,
+        // },
         include: [HospitalRecord],
       });
 
