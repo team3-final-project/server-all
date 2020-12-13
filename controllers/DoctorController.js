@@ -1,4 +1,4 @@
-const { Doctor } = require("../models/index");
+const { Doctor, MedicalRecord, Patient } = require("../models/index");
 const { comparePassword } = require("../helpers/bcrypt");
 const { signToken } = require("../helpers/jwt");
 
@@ -37,6 +37,33 @@ class DoctorController {
         order: [["createdAt", "ASC"]],
       });
       res.status(200).json(doctor);
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  static async getPatientsList(req, res, next) {
+    try {
+      const data = await MedicalRecord.findAll({
+        where: {
+          DoctorId: req.doctorLoggedIn.id,
+        },
+        include: [Patient],
+      });
+      const patients = [];
+      data.forEach((el) => {
+        let flag = false;
+        for (let i = 0; i < patients.length - 1; i++) {
+          if (el.id === patients[i].id) {
+            flag = true;
+          }
+        }
+        if (!flag) {
+          patients.push(el.Patient);
+        }
+      });
+
+      res.status(200).json(patients);
     } catch (err) {
       next(err);
     }

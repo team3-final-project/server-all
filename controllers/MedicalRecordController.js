@@ -43,6 +43,21 @@ class MedicalRecordController {
     }
   }
 
+  static async getMedicalRecordById(req, res, next) {
+    const id = +req.params.id;
+    try {
+      const data = await MedicalRecord.findAll({
+        where: {
+          PatientId: id,
+        },
+        include: [Patient],
+      });
+      res.status(200).json(data);
+    } catch (err) {
+      next(err);
+    }
+  }
+
   static async editMedicalRecord(req, res, next) {
     try {
       let id = +req.params.id;
@@ -76,6 +91,18 @@ class MedicalRecordController {
       res.status(200).json({
         msg: `Successfully delete a medical record!`,
       });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  static async getPatientById(req, res, next) {
+    const id = +req.params.id;
+    try {
+      const patient = await Patient.findByPk(id, {
+        include: [MedicalRecord],
+      });
+      res.status(200).json(patient);
     } catch (err) {
       next(err);
     }
