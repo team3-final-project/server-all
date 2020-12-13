@@ -55,6 +55,23 @@ class DoctorController {
       next(err);
     }
   }
+
+  static async addNewPatient(req, res, next) {
+    try {
+      const { nik, name, email, birth_date, address } = req.body;
+      let patientObj = {
+        nik,
+        name,
+        email,
+        birth_date,
+        address,
+      };
+      const patient = await Patient.create(patientObj);
+      res.status(201).json(patient);
+    } catch (err) {
+      next(err);
+    }
+  }
 }
 
 module.exports = DoctorController;
