@@ -63,7 +63,7 @@ class DoctorController {
         }
       });
 
-      res.status(200).json(patients);
+      res.status(200).json(patients); // Output Array of Object
     } catch (err) {
       next(err);
     }

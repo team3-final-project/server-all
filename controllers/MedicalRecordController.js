@@ -28,21 +28,6 @@ class MedicalRecordController {
     }
   }
 
-  static async getMedicalRecord(req, res, next) {
-    try {
-      const { PatientId } = req.body;
-      const DoctorId = req.doctorLoggedIn.id;
-      const medicalRecords = await MedicalRecord.findAll({
-        where: { DoctorId },
-        order: [["updatedAt", "DESC"]],
-        include: [Patient],
-      });
-      res.status(200).json(medicalRecords);
-    } catch (err) {
-      next(err);
-    }
-  }
-
   static async getMedicalRecordById(req, res, next) {
     const id = +req.params.id;
     try {
