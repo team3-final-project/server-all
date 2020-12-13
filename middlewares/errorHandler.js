@@ -9,9 +9,6 @@ function errorHandler(err, req, res, next) {
       errors.push(err.errors[i].message);
     }
     msg = errors.join(", ");
-  } else if (err.name === "SequelizeUniqueConstraintError") {
-    status = 400;
-    msg = `Email is already taken!`;
   } else {
     status = err.status || 500;
     msg = err.msg || `Internal server error!`;

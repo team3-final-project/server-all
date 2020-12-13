@@ -1,6 +1,4 @@
-const { response } = require("express");
 const request = require("supertest");
-const { report } = require("../app");
 const app = require("../app");
 const { signToken } = require("../helpers/jwt");
 const { Doctor } = require("../models/index");
@@ -116,6 +114,36 @@ describe(`Doctor routes`, () => {
             const { status, body } = result;
             expect(status).toBe(200);
             expect(body).toEqual(expect.any(Object));
+            done();
+          })
+          .catch((err) => done(err));
+      });
+    });
+
+    describe(`GET / doctor / patients`, () => {
+      test("401: failed to pass auth, return json with error", (done) => {
+        request(app)
+          .get("/doctor/patients")
+          .set("access_token", ``)
+          .then((result) => {
+            const { status, body } = result;
+            expect(status).toBe(401);
+            expect(body.msg).toEqual(
+              expect.stringContaining(`Authentication failed!`)
+            );
+            done();
+          })
+          .catch((err) => done(err));
+      });
+
+      test("200:OK, return json with all products data", (done) => {
+        request(app)
+          .get("/doctor/patients")
+          .set(`access_token`, access_token)
+          .then((result) => {
+            const { status, body } = result;
+            expect(status).toBe(200);
+            expect(body).toEqual(expect.any(Array));
             done();
           })
           .catch((err) => done(err));

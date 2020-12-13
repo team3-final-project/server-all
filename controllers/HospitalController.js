@@ -1,33 +1,37 @@
-const { Hospital, HospitalRecord, Patient, sequelize  } = require("../models/index");
-const { comparePassword } = require('../helpers/bcrypt');
-const { signToken } = require('../helpers/jwt');
+const {
+  Hospital,
+  HospitalRecord,
+  Patient,
+  sequelize,
+} = require("../models/index");
+const { comparePassword } = require("../helpers/bcrypt");
+const { signToken } = require("../helpers/jwt");
 
 class HospitalController {
-  
   static async loginHospital(req, res, next) {
     const payload = {
       name: req.body.name,
       password: req.body.password,
-    }
+    };
     try {
       const data = await Hospital.findOne({
-        where: { name: payload.name }
-      })
-      if(!data) {
-        throw { msg: 'Invalid name or password!', status: 401 };
-      } else if(!comparePassword(payload.password, data.password)) {
-        throw { msg: 'Invalid name or password!', status: 401 };
+        where: { name: payload.name },
+      });
+      if (!data) {
+        throw { msg: "Invalid name or password!", status: 401 };
+      } else if (!comparePassword(payload.password, data.password)) {
+        throw { msg: "Invalid name or password!", status: 401 };
       } else {
         const access_token = signToken({
           id: data.id,
           name: data.name,
-          address: data.address
-        })
+          address: data.address,
+        });
         const newData = {
           id: data.id,
           name: data.name,
-          access_token: access_token
-        }
+          access_token: access_token,
+        };
         res.status(200).json(newData);
       }
     } catch (err) {
@@ -35,43 +39,37 @@ class HospitalController {
     }
   }
 
-  static async getHospitalProfile (req, res, next) {
+  static async getHospitalProfile(req, res, next) {
     try {
       const data = await HospitalRecord.findAll({
-        where: { HospitalId : req.hospitalLoggedIn.id },
-        attributes: ['HospitalId',[sequelize.fn('COUNT', sequelize.col('HospitalId')), 'Jumlah Patient']],
-        group: ['HospitalId']
-      })
+        where: { HospitalId: req.hospitalLoggedIn.id },
+        attributes: [
+          "HospitalId",
+          [
+            sequelize.fn("COUNT", sequelize.col("HospitalId")),
+            "Jumlah Patient",
+          ],
+        ],
+        group: ["HospitalId"],
+      });
       res.status(200).json(data);
     } catch (err) {
       next(err);
     }
   }
-  
-  static async getPatientsList (req, res, next) {
+
+  static async getPatientsList(req, res, next) {
     try {
-      const data = await HospitalRecord.findAll({
+      const data = await Patient.findAll({
         where: {
-          HospitalId : req.hospitalLoggedIn.id
+          HospitalId: req.hospitalLoggedIn.id,
         },
-        include: [Patient]
-      })
-      const patients = []
-      data.forEach(el => {
-        let flag = false
-        for(let i = 0; i < patients.length - 1; i++){
-          if(el.id === patients[i].id){
-            flag = true
-          }
-        }
-        if(!flag) {
-          patients.push(el.Patient)
-        }
+        include: [HospitalRecord],
       });
 
-      res.status(200).json(patients)
+      res.status(200).json(data);
     } catch (err) {
-      next(err)
+      next(err);
     }
   }
 }
