@@ -52,18 +52,46 @@ class HospitalController {
         ],
         group: ["HospitalId"],
       });
-      res.status(200).json(data);
+      const profile = await Hospital.findByPk(req.hospitalLoggedIn.id)
+      res.status(200).json({data: data, profile: profile});
     } catch (err) {
       next(err);
+    }
+  }
+
+  static async addNewPatient(req, res, next) {
+    const HospitalId = req.hospitalLoggedIn
+    const { nik, name, email, birth_date, address, type_test, file, date } = req.body;
+
+    try {
+      const addedPatient = await Patient.create({
+        nik,
+        name,
+        email,
+        birth_date,
+        address
+      })
+
+      PatientId = addedPatient.id
+
+      const createRecord = await HospitalRecord.create({
+        type_test,
+        file,
+        date,
+        PatientId,
+        HospitalId
+      })
+
+      res.status(201).json(createRecord)
+      
+    } catch (err) {
+      
     }
   }
 
   static async getPatientsList(req, res, next) {
     try {
       const data = await Patient.findAll({
-        where: {
-          HospitalId: req.hospitalLoggedIn.id,
-        },
         include: [HospitalRecord],
       });
 

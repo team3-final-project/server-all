@@ -1,13 +1,13 @@
 {
   "development": {
-    "username": "bobbyseptianto",
+    "username": "postgres",
     "password": "postgres",
     "database": "med-tracker-db-dev",
     "host": "localhost",
     "dialect": "postgres"
   },
   "test": {
-    "username": "bobbyseptianto",
+    "username": "postgres",
     "password": "postgres",
     "database": "med-tracker-db-test",
     "host": "localhost",
