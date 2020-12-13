@@ -35,9 +35,40 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       },
-      email: DataTypes.STRING,
-      birth_date: DataTypes.STRING,
-      address: DataTypes.STRING,
+      email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: {
+            args: true,
+            msg: `email should not be empty`,
+          },
+        },
+      },
+      birth_date: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: {
+            args: true,
+            msg: `Birth date is required!`,
+          },
+          isDate: {
+            args: true,
+            msg: `Wrong date format YYYY-MM-DD!`,
+          },
+        },
+      },
+      address: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: {
+            args: true,
+            msg: `address should not be empty`,
+          },
+        },
+      },
     },
     {
       sequelize,

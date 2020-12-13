@@ -149,5 +149,91 @@ describe(`Doctor routes`, () => {
           .catch((err) => done(err));
       });
     });
+
+    // CREATE
+    describe("Test Endpoint POST /doctor/patient", () => {
+      // SUCCESS
+      it("Test Create Patient - Success", (done) => {
+        request(app)
+          .post("/doctor/patient")
+          .set("access_token", access_token)
+          .send({
+            nik: "552699875",
+            name: "Bobby Septianto",
+            email: "bobby@mail.com",
+            birth_date: "1997-08-09",
+            address: "Jl. Gang Gagak, Bekasi Timur",
+          })
+          .then((res) => {
+            const { body, status } = res;
+            id = res.body.id;
+            expect(status).toBe(201);
+            expect(body).toHaveProperty("id", expect.any(Number));
+            expect(body).toHaveProperty("nik", "552699875");
+            expect(body).toHaveProperty("name", "Bobby Septianto");
+            expect(body).toHaveProperty("email", "bobby@mail.com");
+            expect(body).toHaveProperty("birth_date", "1997-08-09");
+            expect(body).toHaveProperty(
+              "address",
+              "Jl. Gang Gagak, Bekasi Timur"
+            );
+            done();
+          })
+          .catch((err) => {
+            console.log(err);
+            done(err);
+          });
+      });
+
+      // FAILED
+      it("Test Create Patient - Access Token Not Being Sent", (done) => {
+        request(app)
+          .post("/doctor/patient")
+          .send({
+            nik: "552699875",
+            name: "Bobby Septianto",
+            email: "bobby@mail.com",
+            birth_date: "1997-08-09",
+            address: "Jl. Gang Gagak, Bekasi Timur",
+          })
+          .then((res) => {
+            const { body, status } = res;
+            expect(status).toBe(401);
+            expect(body).toHaveProperty("msg", "Authentication failed!");
+            done();
+          })
+          .catch((err) => {
+            console.log(err);
+            done(err);
+          });
+      });
+
+      it("Test Create Medical Record - Empty Required Fields", (done) => {
+        request(app)
+          .post("/doctor/patient")
+          .set("access_token", access_token)
+          .send({
+            nik: "",
+            name: "",
+            email: "",
+            birth_date: "",
+            address: "",
+          })
+          .then((res) => {
+            const { body, status } = res;
+            expect(status).toBe(400);
+            expect(body).toHaveProperty(
+              "msg",
+              "nik should not be empty, name should not be empty, email should not be empty, Birth date is required!, Wrong date format YYYY-MM-DD!, address should not be empty"
+            );
+            done();
+          })
+          .catch((err) => {
+            console.log(err);
+            done(err);
+          });
+      });
+      
+    });
   });
 });
