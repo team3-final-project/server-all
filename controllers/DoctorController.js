@@ -31,8 +31,10 @@ class DoctorController {
 
   static async detailDoctor(req, res, next) {
     try {
-      const doctor = await Doctor.findAll({
-        order: [["createdAt", "ASC"]]
+      const name = req.doctorLoggedIn.name;
+      const doctor = await Doctor.findOne({
+        where: { name },
+        order: [["createdAt", "ASC"]],
       });
       res.status(200).json(doctor);
     } catch (err) {
