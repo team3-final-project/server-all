@@ -44,26 +44,13 @@ class DoctorController {
 
   static async getPatientsList(req, res, next) {
     try {
-      const data = await MedicalRecord.findAll({
+      const data = await Patient.findAll({
         where: {
           DoctorId: req.doctorLoggedIn.id,
         },
-        include: [Patient],
+        include: [MedicalRecord],
       });
-      const patients = [];
-      data.forEach((el) => {
-        let flag = false;
-        for (let i = 0; i < patients.length - 1; i++) {
-          if (el.id === patients[i].id) {
-            flag = true;
-          }
-        }
-        if (!flag) {
-          patients.push(el.Patient);
-        }
-      });
-
-      res.status(200).json(patients); // Output Array of Object
+      res.status(200).json(data); // Output Array of Object
     } catch (err) {
       next(err);
     }
