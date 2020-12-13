@@ -30,7 +30,7 @@ class HospitalRecordController {
         },
         include: [Patient]
       })
-      res.status(201).json(data)
+      res.status(200).json(data)
     } catch (err) {
       next(err);
     }
