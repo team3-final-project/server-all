@@ -5,6 +5,7 @@ class HospitalRecordController {
     const { type_test, file, date, PatientId } = req.body;
     const HospitalId = req.hospitalLoggedIn.id;
     try {
+      console.log(req.body)
       const result = await HospitalRecord.create({
         type_test,
         file,
