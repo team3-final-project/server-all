@@ -23,24 +23,6 @@ module.exports = {
       address: {
         type: Sequelize.STRING,
       },
-      DoctorId: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: "Doctors",
-          key: "id",
-        },
-        onUpdate: "CASCADE",
-        onDelete: "CASCADE",
-      },
-      HospitalId: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: "Hospitals",
-          key: "id",
-        },
-        onUpdate: "CASCADE",
-        onDelete: "CASCADE",
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

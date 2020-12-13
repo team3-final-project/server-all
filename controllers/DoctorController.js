@@ -45,9 +45,9 @@ class DoctorController {
   static async getPatientsList(req, res, next) {
     try {
       const data = await Patient.findAll({
-        where: {
-          DoctorId: req.doctorLoggedIn.id,
-        },
+        // where: {
+        //   DoctorId: req.doctorLoggedIn.id,
+        // },
         include: [MedicalRecord],
       });
       res.status(200).json(data); // Output Array of Object

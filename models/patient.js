@@ -38,8 +38,6 @@ module.exports = (sequelize, DataTypes) => {
       email: DataTypes.STRING,
       birth_date: DataTypes.STRING,
       address: DataTypes.STRING,
-      DoctorId: DataTypes.INTEGER,
-      HospitalId: DataTypes.INTEGER,
     },
     {
       sequelize,
