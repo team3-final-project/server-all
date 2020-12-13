@@ -11,7 +11,6 @@ class DoctorController {
         password,
       };
       const doctor = await Doctor.findOne({ where: { name: payload.name } });
-      console.log(doctor, '<<<< doctorConsole');
       if (!doctor) {
         throw { msg: `Invalid name or password!`, status: 401 };
       } else if (!comparePassword(payload.password, doctor.password)) {
@@ -32,7 +31,9 @@ class DoctorController {
 
   static async detailDoctor(req, res, next) {
     try {
-      const doctor = await Doctor.findAll({ order: [["createdAt", "ASC"]] });
+      const doctor = await Doctor.findAll({
+        order: [["createdAt", "ASC"]]
+      });
       res.status(200).json(doctor);
     } catch (err) {
       next(err);

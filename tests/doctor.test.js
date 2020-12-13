@@ -11,7 +11,7 @@ beforeAll((done) => {
 
     let doctor = {
         name: `Doctor 5`,
-        password: `1234jl`, 
+        password: `1234jl`,
         specialist: `Dokter kandungan`
     }
 
@@ -102,18 +102,18 @@ describe(`Doctor routes`, () => {
                     .catch(err => done(err))
             })
 
-            test("200:OK, return json with all products data",(done) => { 
+            test("200:OK, return json with all products data", (done) => {
                 request(app)
-                .get('/doctor/detail')
-                .set(`access_token`, access_token)
-                .then(result => { 
-                    const {status, body} = result
-                    expect(status).toBe(200)
-                    expect(body).toEqual(expect.any(Array))
-                    done()
-                })
-                .catch(err => done(err))
-            } )
+                    .get('/doctor/detail')
+                    .set(`access_token`, access_token)
+                    .then(result => {
+                        const { status, body } = result
+                        expect(status).toBe(200)
+                        expect(body).toEqual(expect.any(Array))
+                        done()
+                    })
+                    .catch(err => done(err))
+            })
         })
 
     })
