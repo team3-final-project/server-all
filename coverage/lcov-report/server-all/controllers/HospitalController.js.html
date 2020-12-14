@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">56.25% </span>
+                <span class="strong">91.3% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>18/32</span>
+                <span class='fraction'>21/23</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>4/8</span>
+                <span class='fraction'>4/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/4</span>
+                <span class='fraction'>3/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">58.06% </span>
+                <span class="strong">91.3% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>18/31</span>
+                <span class='fraction'>21/23</span>
             </div>
         
             
@@ -55,7 +55,7 @@
             Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
         </p>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -134,11 +134,14 @@
 <a name='L75'></a><a href='#L75'>75</a>
 <a name='L76'></a><a href='#L76'>76</a>
 <a name='L77'></a><a href='#L77'>77</a>
-<a name='L78'></a><a href='#L78'>78</a>
-<a name='L79'></a><a href='#L79'>79</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
+<a name='L78'></a><a href='#L78'>78</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -179,6 +182,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -186,63 +195,56 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5x</span></td><td class="text"><pre class="prettyprint lang-js">const { Hospital, HospitalRecord, Patient, sequelize  } = require("../models/index");
-const { comparePassword } = require('../helpers/bcrypt');
-const { signToken } = require('../helpers/jwt');
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const {
+  Hospital,
+  HospitalRecord,
+  Patient,
+  sequelize,
+} = require("../models/index");
+const { comparePassword } = require("../helpers/bcrypt");
+const { signToken } = require("../helpers/jwt");
 &nbsp;
 class HospitalController {
-  
   static async loginHospital(req, res, next) {
     const payload = {
       name: req.body.name,
       password: req.body.password,
-    }
+    };
     try {
       const data = await Hospital.findOne({
-        where: { name: payload.name }
-      })
-      if(!data) {
-        throw { msg: 'Invalid name or password!', status: 401 };
-      } else if(!comparePassword(payload.password, data.password)) {
-        throw { msg: 'Invalid name or password!', status: 401 };
+        where: { name: payload.name },
+      });
+      if (!data) {
+        throw { msg: "Invalid name or password!", status: 401 };
+      } else if (!comparePassword(payload.password, data.password)) {
+        throw { msg: "Invalid name or password!", status: 401 };
       } else {
         const access_token = signToken({
           id: data.id,
           name: data.name,
-          address: data.address
-        })
+          address: data.address,
+        });
         const newData = {
           id: data.id,
           name: data.name,
-          access_token: access_token
-        }
+          access_token: access_token,
+        };
         res.status(200).json(newData);
       }
     } catch (err) {
@@ -250,55 +252,50 @@ class HospitalController {
     }
   }
 &nbsp;
-  static async getHospitalProfile (req, res, next) {
+  static async getHospitalProfile(req, res, next) {
     try {
       const data = await HospitalRecord.findAll({
-        where: { HospitalId : req.hospitalLoggedIn.id },
-        attributes: ['HospitalId',[sequelize.fn('COUNT', sequelize.col('HospitalId')), 'Jumlah Patient']],
-        group: ['HospitalId']
-      })
+        where: { HospitalId: req.hospitalLoggedIn.id },
+        attributes: [
+          "HospitalId",
+          [
+            sequelize.fn("COUNT", sequelize.col("HospitalId")),
+            "Jumlah Patient",
+          ],
+        ],
+        group: ["HospitalId"],
+      });
       res.status(200).json(data);
     } catch (err) {
 <span class="cstat-no" title="statement not covered" >      next(err);</span>
     }
   }
-  
-<span class="fstat-no" title="function not covered" >  st</span>atic async getPatientsList (req, res, next) {
-<span class="cstat-no" title="statement not covered" >    try {</span>
-      const data = <span class="cstat-no" title="statement not covered" >await HospitalRecord.findAll({</span>
+&nbsp;
+  static async getPatientsList(req, res, next) {
+    try {
+      const data = await Patient.findAll({
         where: {
-          HospitalId : req.hospitalLoggedIn.id
+          HospitalId: req.hospitalLoggedIn.id,
         },
-        include: [Patient]
-      })
-      const patients = <span class="cstat-no" title="statement not covered" >[]</span>
-<span class="cstat-no" title="statement not covered" >      data.forEach(<span class="fstat-no" title="function not covered" >el</span> =&gt; {</span>
-        let flag = <span class="cstat-no" title="statement not covered" >false</span>
-<span class="cstat-no" title="statement not covered" >        for(let i = <span class="cstat-no" title="statement not covered" >0;</span> i &lt; patients.length - 1; i++){</span>
-<span class="cstat-no" title="statement not covered" >          if(el.id === patients[i].id){</span>
-<span class="cstat-no" title="statement not covered" >            flag = true</span>
-          }
-        }
-<span class="cstat-no" title="statement not covered" >        if(!flag) {</span>
-<span class="cstat-no" title="statement not covered" >          patients.push(el.Patient)</span>
-        }
+        include: [HospitalRecord],
       });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      res.status(200).json(patients)</span>
+      res.status(200).json(data);
     } catch (err) {
-<span class="cstat-no" title="statement not covered" >      next(err)</span>
+<span class="cstat-no" title="statement not covered" >      next(err);</span>
     }
   }
 }
 &nbsp;
-module.exports = HospitalController;</pre></td></tr></table></pre>
+module.exports = HospitalController;
+&nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Sun Dec 13 2020 11:05:25 GMT+0700 (Indochina Time)
+                at Sun Dec 13 2020 21:07:01 GMT+0700 (Indochina Time)
             </div>
         </div>
         <script src="../../prettify.js"></script>

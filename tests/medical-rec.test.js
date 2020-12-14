@@ -202,12 +202,12 @@ describe("Test Endpoint POST /medical-record", () => {
   });
 });
 
-// GET
+// GET MEDICAL RECORD BY ID
 describe("Test Endpoint GET /medical-record", () => {
   // SUCCESS
-  it("Test Get Medical Record - Success", (done) => {
+  it("Test Get Medical Record By ID - Success", (done) => {
     request(app)
-      .get("/medical-record")
+      .get(`/medical-record/1`)
       .set("access_token", access_token)
       .then((res) => {
         const { body, status } = res;
@@ -222,9 +222,9 @@ describe("Test Endpoint GET /medical-record", () => {
   });
 
   // FAILED
-  it("Test Get Medical Record - Not SEND Acces Token", (done) => {
+  it("Test Get Medical Record By ID - Not SEND Acces Token", (done) => {
     request(app)
-      .get("/medical-record")
+      .get(`/medical-record/${id}`)
       .then((res) => {
         const { body, status } = res;
         expect(status).toBe(401);
@@ -237,21 +237,57 @@ describe("Test Endpoint GET /medical-record", () => {
       });
   });
 
-  // it("Test Get Medical Record - ID Not Found", (done) => {
-  //   request(app)
-  //     .get("/medical-record")
-  //     .set("access_token", access_token)
-  //     .then((res) => {
-  //       const { body, status } = res;
-  //       expect(status).toBe(404);
-  //       expect(body).toHaveProperty("msg", "Error not found!");
-  //       done();
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //       done(err);
-  //     });
-  // });
+  it("Test Get Medical Record By ID - ID Not Found", (done) => {
+    request(app)
+      .put(`/medical-record/99999`)
+      .set("access_token", access_token)
+      .then((res) => {
+        const { body, status } = res;
+        expect(status).toBe(404);
+        expect(body).toHaveProperty("msg", "Error not found!");
+        done();
+      })
+      .catch((err) => {
+        console.log(err);
+        done(err);
+      });
+  });
+});
+
+// GET PATIENT BY PATIENT ID
+describe("Test Endpoint GET /medical-record/patient", () => {
+  // SUCCESS
+  it("Test Get Patient By ID - Success", (done) => {
+    request(app)
+      .get(`/medical-record/patient/1`)
+      .set("access_token", access_token)
+      .then((res) => {
+        const { body, status } = res;
+        expect(status).toBe(200);
+        expect(body).toEqual(expect.any(Object));
+        done();
+      })
+      .catch((err) => {
+        console.log(err);
+        done(err);
+      });
+  });
+
+  // FAILED
+  it("Test Get Patient By ID - Not SEND Acces Token", (done) => {
+    request(app)
+      .get(`/medical-record/patient/1`)
+      .then((res) => {
+        const { body, status } = res;
+        expect(status).toBe(401);
+        expect(body).toHaveProperty("msg", "Authentication failed!");
+        done();
+      })
+      .catch((err) => {
+        console.log(err);
+        done(err);
+      });
+  });
 });
 
 // UPDATE

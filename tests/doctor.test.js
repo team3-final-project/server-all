@@ -1,7 +1,7 @@
 const { response } = require("express");
 const request = require("supertest");
-const { report } = require("../app");
 const app = require("../app");
+const { hashPassword } = require("../helpers/bcrypt");
 const { signToken } = require("../helpers/jwt");
 const { Doctor } = require("../models/index");
 
@@ -11,7 +11,7 @@ beforeAll((done) => {
 
     let doctor = {
         name: `Doctor 5`,
-        password: `1234jl`,
+        password: hashPassword(`1234jl`),
         specialist: `Dokter kandungan`
     }
 
@@ -76,34 +76,21 @@ describe(`Doctor routes`, () => {
           );
           done();
         })
+        .catch((err) => done(err));
+    });
 
-        // describe(`GET / doctor`, () => {
-        //     test("401: failed to pass auth, return json with error", (done) => {
-        //         request(app)
-        //             .get('/doctor/detail')
-        //             .set('access_token', ``)
-        //             .then(result => {
-        //                 const { status, body } = result
-        //                 expect(status).toBe(401)
-        //                 expect(body.msg).toEqual(expect.stringContaining(`Authentication failed!`))
-        //                 done()
-        //             })
-        //             .catch(err => done(err))
-        //     })
-
-        //     test("200:OK, return json with all products data", (done) => {
-        //         request(app)
-        //             .get('/doctor/detail')
-        //             .set(`access_token`, access_token)
-        //             .then(result => {
-        //                 const { status, body } = result
-        //                 expect(status).toBe(200)
-        //                 expect(body).toEqual(expect.any(Array))
-        //                 done()
-        //             })
-        //             .catch(err => done(err))
-        //     })
-        // })
+    test("401: wrong input name (invalid email or password), return json with error", (done) => {
+      request(app)
+        .post("/doctor")
+        .send({ name: "Doctor 1", password: "2345" })
+        .then((response) => {
+          const { body, status } = response;
+          expect(status).toBe(401);
+          expect(body.msg).toEqual(
+            expect.stringMatching("Invalid name or password!")
+          );
+          done();
+        })
         .catch((err) => done(err));
     });
 
@@ -131,6 +118,36 @@ describe(`Doctor routes`, () => {
             const { status, body } = result;
             expect(status).toBe(200);
             expect(body).toEqual(expect.any(Object));
+            done();
+          })
+          .catch((err) => done(err));
+      });
+    });
+
+    describe(`GET / doctor / patients`, () => {
+      test("401: failed to pass auth, return json with error", (done) => {
+        request(app)
+          .get("/doctor/patients")
+          .set("access_token", ``)
+          .then((result) => {
+            const { status, body } = result;
+            expect(status).toBe(401);
+            expect(body.msg).toEqual(
+              expect.stringContaining(`Authentication failed!`)
+            );
+            done();
+          })
+          .catch((err) => done(err));
+      });
+
+      test("200:OK, return json with all products data", (done) => {
+        request(app)
+          .get("/doctor/patients")
+          .set(`access_token`, access_token)
+          .then((result) => {
+            const { status, body } = result;
+            expect(status).toBe(200);
+            expect(body).toEqual(expect.any(Array));
             done();
           })
           .catch((err) => done(err));

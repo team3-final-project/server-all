@@ -1,53 +1,50 @@
 const { HospitalRecord, Patient } = require("../models/index");
 
 class HospitalRecordController {
-
   static async addHospitalRecord(req, res, next) {
-
-    const { type_test, file, date, PatientId, HospitalId } = req.body
+    const { type_test, file, date, PatientId } = req.body;
+    const HospitalId = req.hospitalLoggedIn.id;
     try {
       const result = await HospitalRecord.create({
         type_test,
         file,
         date,
         PatientId,
-        HospitalId
-      })
-      res.status(201).json({result})
+        HospitalId,
+      });
+      res.status(201).json({ result });
     } catch (err) {
       next(err);
     }
   }
 
   static async readHospitalRecordById(req, res, next) {
-    const id = +req.params.id
-    console.log(id)
-
+    const id = +req.params.id;
     try {
       const data = await HospitalRecord.findAll({
         where: {
-          PatientId: id
+          PatientId: id,
         },
-        include: [Patient]
-      })
-      res.status(201).json(data)
+        include: [Patient],
+      });
+      res.status(200).json(data);
     } catch (err) {
       next(err);
     }
   }
 
   static async deleteHospitalRecord(req, res, next) {
-    const id = req.params.id
+    const id = req.params.id;
     try {
-      const result = await HospitalRecord.destroy({ where: {
-        id: id
-      },
-        returning: true
-      })
-      res.status(200).json({ result, msg: 'successfully deleted' })
-    }
-    catch(err) {
-      next(err)
+      const result = await HospitalRecord.destroy({
+        where: {
+          id: id,
+        },
+        returning: true,
+      });
+      res.status(200).json({ result, msg: "successfully deleted" });
+    } catch (err) {
+      next(err);
     }
   }
 }
