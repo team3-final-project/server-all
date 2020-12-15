@@ -22,11 +22,11 @@ class HospitalRecordController {
   static async readHospitalRecordById(req, res, next) {
     const id = +req.params.id;
     try {
-      const data = await HospitalRecord.findAll({
+      const data = await Patient.findOne({
         where: {
-          PatientId: id,
+          id: id,
         },
-        include: [Patient],
+        include: [HospitalRecord],
       });
       res.status(200).json(data);
     } catch (err) {
