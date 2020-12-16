@@ -2,9 +2,9 @@ const http = require('http');
 const app = require('../app.js');
 const port = process.env.PORT || 3000;
 const hostname = "192.168.0.104"
-app.set('port', port);
+app.set('port', port, 'hostname', hostname);
 
 const server = http.createServer(app);
-server.listen(port, hostname, () => {
+server.listen(port, hostname () => {
     console.log(`app listen on port http://${hostname}:${port}/`);
 });
