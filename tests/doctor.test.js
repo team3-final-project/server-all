@@ -1,23 +1,27 @@
+const { response } = require("express");
 const request = require("supertest");
 const app = require("../app");
+const { hashPassword } = require("../helpers/bcrypt");
 const { signToken } = require("../helpers/jwt");
 const { Doctor } = require("../models/index");
 
 let access_token = "";
 
 beforeAll((done) => {
-  let doctor = {
-    name: `Doctor 5`,
-    password: `1234jl`,
-    specialist: `Dokter kandungan`,
-  };
 
-  Doctor.create(doctor).then((result) => {
-    let { id, name, password, specialist } = result;
-    access_token = signToken({ id, name, password, specialist });
-    done();
-  });
-});
+    let doctor = {
+        name: `Doctor 5`,
+        password: hashPassword(`1234jl`),
+        specialist: `Dokter kandungan`
+    }
+
+    Doctor.create(doctor)
+        .then(result => {
+            let { id, name, password, specialist } = result
+            access_token = signToken({ id, name, password, specialist })
+            done()
+        })
+})
 
 describe(`Doctor routes`, () => {
   let doctorLogin = {
@@ -75,10 +79,10 @@ describe(`Doctor routes`, () => {
         .catch((err) => done(err));
     });
 
-    test("401: wrong input password (invalid email or password), return json with error", (done) => {
+    test("401: wrong input name (invalid email or password), return json with error", (done) => {
       request(app)
         .post("/doctor")
-        .send({ name: "Doctor 1", password: "1234klm" })
+        .send({ name: "Doctor 1", password: "2345" })
         .then((response) => {
           const { body, status } = response;
           expect(status).toBe(401);
