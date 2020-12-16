@@ -4,7 +4,8 @@ const { authenticationDoctor } = require("../middlewares/authentication");
 
 router.post("/", DoctorController.loginDoctor);
 
-router.use(authenticationDoctor)
+router.use(authenticationDoctor);
+router.post("/patient", DoctorController.addNewPatient);
 router.get("/detail", DoctorController.detailDoctor);
 router.get("/patients", DoctorController.getPatientsList);
 

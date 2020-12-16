@@ -46,14 +46,31 @@ class DoctorController {
   static async getPatientsList(req, res, next) {
     try {
       const data = await Patient.findAll({
-        where: {
-          DoctorId: req.doctorLoggedIn.id,
-        },
+        // where: {
+        //   DoctorId: req.doctorLoggedIn.id,
+        // },
         include: [MedicalRecord],
       });
       res.status(200).json(data); // Output Array of Object
     } catch (err) {
       // next(err);
+    }
+  }
+
+  static async addNewPatient(req, res, next) {
+    try {
+      const { nik, name, email, birth_date, address } = req.body;
+      let patientObj = {
+        nik,
+        name,
+        email,
+        birth_date,
+        address,
+      };
+      const patient = await Patient.create(patientObj);
+      res.status(201).json(patient);
+    } catch (err) {
+      next(err);
     }
   }
 }

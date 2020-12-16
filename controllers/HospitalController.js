@@ -39,6 +39,23 @@ class HospitalController {
     }
   }
 
+  static async addPatient(req, res, next) {
+    const { nik, name, email, birth_date, address } = req.body
+
+    try {
+      const result = await Patient.create({
+        nik,
+        name,
+        email,
+        birth_date,
+        address
+      })
+      res.status(201).json(result)
+    } catch (err) {
+      next(err)
+    }
+  }
+
   static async getHospitalProfile(req, res, next) {
     try {
       const data = await HospitalRecord.findAll({
@@ -52,7 +69,8 @@ class HospitalController {
         ],
         group: ["HospitalId"],
       });
-      res.status(200).json(data);
+      const profile = await Hospital.findByPk(req.hospitalLoggedIn.id)
+      res.status(200).json({data: data, profile: profile});
     } catch (err) {
       next(err);
     }
@@ -61,9 +79,6 @@ class HospitalController {
   static async getPatientsList(req, res, next) {
     try {
       const data = await Patient.findAll({
-        where: {
-          HospitalId: req.hospitalLoggedIn.id,
-        },
         include: [HospitalRecord],
       });
 
