@@ -140,7 +140,7 @@ describe("Test Endpoint GET /hospital-record", () => {
       .then((res) => {
         const { body, status } = res;
         expect(status).toBe(200);
-        expect(body).toEqual(expect.any(Array));
+        expect(body).toEqual(expect.any(Object));
         done();
       })
       .catch((err) => {
@@ -164,6 +164,24 @@ describe("Test Endpoint GET /hospital-record", () => {
         done(err);
       });
   });
+
+  it("Test Get Hospital Record By ID - ID Not Found", (done) => { 
+    request(app)
+      .put('/hospital-record/99999')
+      .set('access_token', access_token)
+      .then((res) => { 
+        const {body, status} = res
+        expect(status).toBe(404)
+        expect(body).toHaveProperty("msg", "Error not found!")
+        done()
+      })
+      .catch((err) => { 
+        console.log(err);
+        done()
+      })
+  })
+  
+
 });
 
 describe("Test endpoint delete hospital record", () => {

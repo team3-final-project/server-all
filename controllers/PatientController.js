@@ -20,6 +20,7 @@ class PatientController {
           nik: result.nik,
           name: result.name,
         });
+        console.log(access_token)
         res.status(200).json({ access_token });
       }
     } catch (err) {

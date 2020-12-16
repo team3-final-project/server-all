@@ -1,3 +1,4 @@
+const { response } = require("express");
 const request = require("supertest");
 const app = require("../app");
 
@@ -61,6 +62,23 @@ describe("test Endpoint Hospital Login", () => {
         done(err);
       });
   });
+
+
+  it ("test login failed (empty send data)", (done) => { 
+    request(app)
+      .post("/hospital/login")
+      .send({name : '',  password : ''})
+      .then((response) => { 
+        const {body, status} = response
+        expect(status).toEqual(401)
+        expect(body).toEqual(expect.any(Object))
+        done()
+      })
+      .catch((err) => { 
+        done(err)
+      })
+  })
+
 });
 
 describe("test EndPoint Hospital Profile", () => {
@@ -81,12 +99,12 @@ describe("test EndPoint Hospital Profile", () => {
   it("test endpoint get profile failed (not authorized)", (done) => {
     request(app)
       .get("/hospital")
-      // .set('access_token', access_token)
+      .set('access_token', ``)
       .then((response) => {
         const { body, status } = response;
 
         expect(status).toEqual(401);
-        expect(body).toEqual(expect.any(Object));
+        expect(body).toHaveProperty("msg", "Authentication failed!");
         done();
       })
       .catch((err) => done(err));

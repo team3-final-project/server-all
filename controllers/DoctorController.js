@@ -46,6 +46,7 @@ class DoctorController {
   static async getPatientsList(req, res, next) {
     try {
       const data = await Patient.findAll({
+        // order: [['id', 'desc']],
         // where: {
         //   DoctorId: req.doctorLoggedIn.id,
         // },
