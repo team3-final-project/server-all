@@ -5,7 +5,8 @@ const { authenticationDoctor } = require("../middlewares/authentication");
 router.post("/", DoctorController.loginDoctor);
 
 router.use(authenticationDoctor);
+router.post("/patient", DoctorController.addNewPatient);
 router.get("/detail", DoctorController.detailDoctor);
-// dst
+router.get("/patients", DoctorController.getPatientsList);
 
 module.exports = router;

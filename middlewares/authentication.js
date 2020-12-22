@@ -25,7 +25,6 @@ async function authenticationDoctor(req, res, next) {
 async function authenticationHospital(req, res, next) {
   try {
     const { access_token } = req.headers;
-    console.log(access_token, '<<<< access_token di authen');
     if (!access_token) {
       throw { msg: `Authentication failed!`, status: 401 };
     } else {
@@ -52,13 +51,12 @@ async function authenticationPatient(req, res, next) {
     } else {
       const decoded = verifyToken(access_token);
       const { nik, name } = decoded;
-      const patient = await Patient.findOne({ where: { nik: nik, name: name } });
-      console.log(patient)
+      const patient = await Patient.findOne({
+        where: { nik: nik, name: name },
+      });
       if (!patient) {
-        console.log('bukan')
         throw { msg: `Authentication failed!`, status: 401 };
       } else {
-        console.log('4')
         req["patientLoggedIn"] = decoded;
         next();
       }
@@ -68,5 +66,8 @@ async function authenticationPatient(req, res, next) {
   }
 }
 
-module.exports = { authenticationDoctor, authenticationPatient, authenticationHospital };
-
+module.exports = {
+  authenticationDoctor,
+  authenticationPatient,
+  authenticationHospital,
+};

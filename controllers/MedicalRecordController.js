@@ -1,4 +1,4 @@
-const { MedicalRecord } = require("../models/index");
+const { MedicalRecord, Patient } = require("../models/index");
 
 class MedicalRecordController {
   static async addMedicalRecord(req, res, next) {
@@ -28,19 +28,16 @@ class MedicalRecordController {
     }
   }
 
-  static async getMedicalRecord(req, res, next) {
+  static async getMedicalRecordById(req, res, next) {
+    const id = +req.params.id;
     try {
-      const { PatientId } = req.body;
-      const DoctorId = req.doctorLoggedIn.id;
-      const medicalRecords = await MedicalRecord.findAll({
-        where: { PatientId, DoctorId },
-        order: [["updatedAt", "DESC"]],
+      const data = await MedicalRecord.findAll({
+        where: {
+          PatientId: id,
+        },
+        include: [Patient],
       });
-      if (!medicalRecords.length) {
-        throw { msg: `Error not found!`, status: 404 };
-      } else {
-        res.status(200).json(medicalRecords);
-      }
+      res.status(200).json(data);
     } catch (err) {
       next(err);
     }
@@ -79,6 +76,18 @@ class MedicalRecordController {
       res.status(200).json({
         msg: `Successfully delete a medical record!`,
       });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  static async getPatientById(req, res, next) {
+    const id = +req.params.id;
+    try {
+      const patient = await Patient.findByPk(id, {
+        include: [MedicalRecord],
+      });
+      res.status(200).json(patient);
     } catch (err) {
       next(err);
     }
