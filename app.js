@@ -12,6 +12,7 @@ const errorHandler = require("./middlewares/errorHandler");
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.get('/', (req, res) => res.status(200).json({msg: "helo"}))
 
 app.use("/", router);
 app.use(errorHandler);
