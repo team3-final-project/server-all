@@ -8,8 +8,8 @@
   },
   "test": {
     "username": "postgres",
-    "password": "postgres",
-    "database": "med-tracker-db-test",
+    "password": "1234jl",
+    "database": "med-tracker-db-test2",
     "host": "localhost",
     "dialect": "postgres"
   },
