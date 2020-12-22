@@ -1,7 +1,7 @@
-// if(process.env.NODE_ENV !== "production"){
-//   require('dotenv').config();
-
-//require('dotenv').config();
+if(process.env.NODE_ENV !== "production"){
+  require('dotenv').config();
+}
+// require('dotenv').config();
 const express = require("express");
 const app = express();
 const port = process.env.PORT || 3000;
@@ -22,8 +22,8 @@ app.use(errorHandler);
 
 // Selama Testing & Develop ini Jangan di Uncomment ya Gaes!
 // // Gunakan Saat Production Saja!
-// app.listen(port, () => {
-//   console.log(`app listen on port ${port}`);
-// });
+app.listen(port, () => {
+  console.log(`app listen on port ${port}`)
+})
 
 module.exports = app;
