@@ -4,6 +4,7 @@ const { signToken } = require("../helpers/jwt");
 
 class DoctorController {
   static async loginDoctor(req, res, next) {
+    console.log('masuk')
     try {
       const { name, password } = req.body;
       const payload = {
@@ -25,6 +26,7 @@ class DoctorController {
           .json({ id: doctor.id, name: doctor.name, access_token });
       }
     } catch (err) {
+      // console.log(err, '<<< errr');
       next(err);
     }
   }
@@ -38,19 +40,37 @@ class DoctorController {
       });
       res.status(200).json(doctor);
     } catch (err) {
-      next(err);
+      // next(err);
     }
   }
 
   static async getPatientsList(req, res, next) {
     try {
       const data = await Patient.findAll({
+        // order: [['id', 'desc']],
         // where: {
         //   DoctorId: req.doctorLoggedIn.id,
         // },
         include: [MedicalRecord],
       });
       res.status(200).json(data); // Output Array of Object
+    } catch (err) {
+      // next(err);
+    }
+  }
+
+  static async addNewPatient(req, res, next) {
+    try {
+      const { nik, name, email, birth_date, address } = req.body;
+      let patientObj = {
+        nik,
+        name,
+        email,
+        birth_date,
+        address,
+      };
+      const patient = await Patient.create(patientObj);
+      res.status(201).json(patient);
     } catch (err) {
       next(err);
     }
