@@ -4,6 +4,7 @@ const { signToken } = require("../helpers/jwt");
 
 class DoctorController {
   static async loginDoctor(req, res, next) {
+    console.log('masuk')
     try {
       const { name, password } = req.body;
       const payload = {

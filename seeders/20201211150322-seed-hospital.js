@@ -3,19 +3,12 @@
 const { hashPassword } = require("../helpers/bcrypt");
 const hospitalData = [
   {
-    name: "Hospital 1",
+    name: "RS Borromeus",
     password: hashPassword(`1234`),
-    address: "Jl. Tanjung Duren, Jakarta Barat",
+    address: "Jl. Ir.H. Juanda, Bandung",
     createdAt: new Date(),
     updatedAt: new Date(),
-  },
-  {
-    name: "Hospital 2",
-    password: hashPassword(`1234`),
-    address: "Jl. Makaliwe, Jakarta Barat",
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
+  }
 ];
 
 module.exports = {
