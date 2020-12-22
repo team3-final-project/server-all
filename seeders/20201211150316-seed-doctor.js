@@ -3,25 +3,11 @@
 const { hashPassword } = require("../helpers/bcrypt");
 const doctorData = [
   {
-    name: "Doctor 1",
+    name: "Adly Maulana",
     password: hashPassword(`1234`),
-    specialist: "Dokter Umum",
+    specialist: "Dokter Anak",
     createdAt: new Date(),
     updatedAt: new Date(),
-  },
-  {
-    name: "Doctor 2",
-    password: hashPassword(`1234`),
-    specialist: "Dokter Jantung",
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  },
-  {
-    name: "Doctor 3",
-    password: hashPassword(`1234jlm`),
-    specialist: "Dokter Gigi",
-    createdAt: new Date(),
-    updatedAt: new Date()
   }
 ];
 
