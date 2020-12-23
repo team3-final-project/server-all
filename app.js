@@ -1,7 +1,7 @@
-// if(process.env.NODE_ENV !== "production"){
-//   require('dotenv').config();
-
-//require('dotenv').config();
+if(process.env.NODE_ENV !== "production"){
+  require('dotenv').config();
+}
+// require('dotenv').config();
 const express = require("express");
 // is to handle registering and sending push notifications
 const app = express();
@@ -101,6 +101,8 @@ app.use(cors());
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+app.get('/', (req, res) => res.status(200).json({msg: "helo"}))
 app.use("/", router);
 app.use(errorHandler);
 
@@ -137,8 +139,8 @@ app.use(errorHandler);
 
 // Selama Testing & Develop ini Jangan di Uncomment ya Gaes!
 // // Gunakan Saat Production Saja!
-// app.listen(port, () => {
-//   console.log(`app listen on port ${port}`);
-// });
+app.listen(port, () => {
+  console.log(`app listen on port ${port}`)
+})
 
 module.exports = app;
